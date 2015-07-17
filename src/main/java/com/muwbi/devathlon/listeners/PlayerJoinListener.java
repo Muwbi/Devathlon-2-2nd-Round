@@ -47,4 +47,5 @@ public class PlayerJoinListener implements Listener {
              event.disallow(null, Message.NORMAL.getPrefix() + "Das Spiel läuft schon! Versuche es zu einem späteren Zeitpunkt erneut!");
          }
     }
+
 }

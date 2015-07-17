@@ -52,4 +52,8 @@ public class GameSession {
 
     }
 
+    public void sendTeamMessage( Team team, String message ) {
+        team.getMembers().forEach( uuid -> Bukkit.getPlayer( uuid ).sendMessage( message ) );
+    }
+
 }

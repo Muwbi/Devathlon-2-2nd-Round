@@ -1,5 +1,7 @@
 package com.muwbi.devathlon.objects;
 
+import com.muwbi.devathlon.SpaceFighter;
+import com.muwbi.devathlon.game.Message;
 import com.muwbi.devathlon.game.Team;
 import com.muwbi.devathlon.scheduler.BeamTask;
 import org.bukkit.Material;
@@ -23,8 +25,10 @@ public class Beamer implements Listener {
         if ( event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
             if ( player.getLocation().distanceSquared( Team.getTeam( player.getUniqueId() ).getBeamLocation() ) < 9 ) {
                 new BeamTask( 5, player, Team.getTeam( player.getUniqueId() ).getBeamLocation() ).start();
+                SpaceFighter.getInstance().getGameSession().sendTeamMessage( Team.getTeam( player.getUniqueId() ).getOtherTeam(), Message.ERROR.getPrefix() + "Der Feind startet einen Beamvorgang!" );
             }
         }
+
     }
 
 }
