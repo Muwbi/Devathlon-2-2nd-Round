@@ -1,7 +1,9 @@
 package com.muwbi.devathlon;
 
+import com.comphenix.protocol.ProtocolLibrary;
 import com.google.common.reflect.ClassPath;
 import com.muwbi.devathlon.game.GameSession;
+import com.muwbi.devathlon.objects.SpaceCannon;
 import lombok.Getter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -31,6 +33,7 @@ public class SpaceFighter extends JavaPlugin {
 
     private void registerListeners() {
         PluginManager pluginManager = getServer().getPluginManager();
+
         try {
             for ( ClassPath.ClassInfo classInfo : ClassPath.from( getClassLoader() ).getTopLevelClasses( "com.muwbi.devathlon.listeners" ) ) {
                 Class clazz = Class.forName( classInfo.getName() );
@@ -42,6 +45,8 @@ public class SpaceFighter extends JavaPlugin {
         } catch ( IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e ) {
             e.printStackTrace();
         }
+
+        pluginManager.registerEvents( new SpaceCannon(), this );
     }
 
 }
