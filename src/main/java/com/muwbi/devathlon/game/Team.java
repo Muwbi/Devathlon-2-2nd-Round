@@ -15,8 +15,8 @@ import java.util.UUID;
  */
 public enum Team {
 
-    REBEL( "R", "Rebel", ChatColor.GREEN, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0) ),
-    IMPERIAL( "I", "Imperial", ChatColor.RED, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0) );
+    REBEL( "R", "Rebel", ChatColor.GREEN, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0) ),
+    IMPERIAL( "I", "Imperial", ChatColor.RED, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0) );
 
     @Getter
     private String shortName;
@@ -25,6 +25,8 @@ public enum Team {
     @Getter
     private ChatColor chatColor;
     @Getter
+    private int hitPoints;
+    @Getter
     private Location spawnLocation;
     @Getter
     private Location beamLocation;
@@ -32,10 +34,11 @@ public enum Team {
     @Getter
     private final List<UUID> members = new ArrayList<>();
 
-    private Team( String shortName, String fullName, ChatColor chatColor, Location spawnLocation, Location beamLocation ) {
+    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, Location spawnLocation, Location beamLocation ) {
         this.shortName = shortName;
         this.fullName = fullName;
         this.chatColor = chatColor;
+        this.hitPoints = hitPoints;
         this.spawnLocation = spawnLocation;
         this.beamLocation = beamLocation;
     }
