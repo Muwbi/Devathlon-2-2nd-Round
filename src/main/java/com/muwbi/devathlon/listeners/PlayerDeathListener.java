@@ -1,6 +1,5 @@
 package com.muwbi.devathlon.listeners;
 
-import com.comphenix.protocol.PacketType;
 import com.muwbi.devathlon.game.Message;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
