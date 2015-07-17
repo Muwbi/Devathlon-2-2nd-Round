@@ -1,6 +1,7 @@
 package com.muwbi.devathlon;
 
 import com.google.common.reflect.ClassPath;
+import com.muwbi.devathlon.commands.GameStateChangeCommand;
 import com.muwbi.devathlon.game.GameSession;
 import com.muwbi.devathlon.objects.Beamer;
 import com.muwbi.devathlon.objects.SpaceCannon;
@@ -48,6 +49,10 @@ public class SpaceFighter extends JavaPlugin {
 
         pluginManager.registerEvents( new SpaceCannon(), this );
         pluginManager.registerEvents( new Beamer(), this );
+    }
+
+    private void registerCommands() {
+        getCommand( "gamestate" ).setExecutor( new GameStateChangeCommand() );
     }
 
 }

@@ -2,3 +2,7 @@ name: SpaceFighter
 main: com.muwbi.devathlon.SpaceFighter
 version: 1.0-SNAPSHOT
 depend: [ProtocolLib]
+
+commands:
+  gamestate:
+    description: Change gamestate
