@@ -1,5 +1,7 @@
 package com.muwbi.devathlon.objects;
 
+import com.muwbi.devathlon.game.Team;
+import com.muwbi.devathlon.scheduler.ProjectileTracker;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -67,10 +69,12 @@ public class SpaceCannon implements Listener {
 
                 player.teleport( playerLocation );
             }
-        } else if ( event.getAction() == Action.RIGHT_CLICK_AIR ) {
+        } else if ( event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR ) {
+            Bukkit.broadcastMessage( "Throwing projectile" );
+
             if ( isInUse ) {
-                Snowball snowball = (Snowball) player.getWorld().spawnEntity( player.getEyeLocation(), EntityType.SNOWBALL );
-                snowball.setVelocity( player.getLocation().getDirection().normalize().multiply( 5 ) );
+                Snowball snowball = player.launchProjectile( Snowball.class, player.getLocation().getDirection().normalize().multiply( 5 ) );
+                new ProjectileTracker( snowball, Team.getTeam( player.getUniqueId() ).getOtherTeam() ).start();
             }
         }
     }
