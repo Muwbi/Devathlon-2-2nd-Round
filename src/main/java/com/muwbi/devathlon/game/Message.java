@@ -9,7 +9,7 @@ import org.bukkit.ChatColor;
 public enum Message {
 
     NORMAL( ChatColor.GRAY + "[" + ChatColor.GOLD + "SpaceFighter" + ChatColor.GRAY + "] " + ChatColor.DARK_AQUA ),
-    ERROR( ChatColor.RED + "[" + ChatColor.DARK_RED + "!" + ChatColor.RED + "] ");
+    ERROR( ChatColor.RED + "[" + ChatColor.DARK_RED + "!" + ChatColor.RED + "] " );
 
     @Getter
     private String prefix;
