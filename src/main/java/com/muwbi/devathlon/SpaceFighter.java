@@ -30,6 +30,7 @@ public class SpaceFighter extends JavaPlugin {
         gameSession = new GameSession();
 
         registerListeners();
+        registerCommands();
     }
 
     private void registerListeners() {

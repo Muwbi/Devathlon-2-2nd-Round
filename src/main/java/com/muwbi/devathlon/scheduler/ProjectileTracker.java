@@ -1,11 +1,13 @@
 package com.muwbi.devathlon.scheduler;
 
 import com.muwbi.devathlon.SpaceFighter;
+import com.muwbi.devathlon.events.BorderDestroyedEvent;
 import com.muwbi.devathlon.game.Team;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.scoreboard.Score;
 
 /**
  * Created by Muwbi
@@ -24,12 +26,22 @@ public class ProjectileTracker implements Runnable {
         lifetime++;
 
         if ( lifetime > 200 ) {
-            projectile.remove();
+            SpaceFighter.getInstance().getLogger().info( "Removing projectile " + projectile.getEntityId() + " because it didn't reach the border within 10 seconds" );
             stop();
         }
 
         if ( projectile.getLocation().distanceSquared( team.getSpawnLocation() ) < 5000 /* TODO: Radius */ ) {
+            Score score = SpaceFighter.getInstance().getGameSession().getScores().get( team );
 
+            if ( score.getScore() <= 0 ) {
+                score.setScore( 0 );
+                BorderDestroyedEvent event = new BorderDestroyedEvent( team );
+                Bukkit.getPluginManager().callEvent( event );
+            } else {
+                score.setScore( score.getScore() - 25 );
+            }
+
+            stop();
         }
     }
 
@@ -41,6 +53,8 @@ public class ProjectileTracker implements Runnable {
         if ( task == null ) {
             throw new IllegalStateException( "Cannot stop a task which is not running" );
         }
+
+        projectile.remove();
 
         task.cancel();
     }

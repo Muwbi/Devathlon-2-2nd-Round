@@ -1,8 +1,11 @@
 package com.muwbi.devathlon.objects;
 
+import com.muwbi.devathlon.SpaceFighter;
+import com.muwbi.devathlon.game.Message;
 import com.muwbi.devathlon.game.Team;
 import com.muwbi.devathlon.scheduler.ProjectileTracker;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 
@@ -70,11 +73,13 @@ public class SpaceCannon implements Listener {
                 player.teleport( playerLocation );
             }
         } else if ( event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR ) {
-            Bukkit.broadcastMessage( "Throwing projectile" );
-
-            if ( isInUse ) {
-                Snowball snowball = player.launchProjectile( Snowball.class, player.getLocation().getDirection().normalize().multiply( 5 ) );
-                new ProjectileTracker( snowball, Team.getTeam( player.getUniqueId() ).getOtherTeam() ).start();
+            if ( isInUse && uuid == player.getUniqueId() ) {
+                if ( SpaceFighter.getInstance().getGameSession().getScores().get( Team.getTeam( uuid ).getOtherTeam() ).getScore() > 0 ) {
+                    Snowball snowball = player.launchProjectile( Snowball.class, player.getLocation().getDirection().normalize().multiply( 5 ) );
+                    new ProjectileTracker( snowball, Team.getTeam( player.getUniqueId() ).getOtherTeam() ).start();
+                } else {
+                    player.sendMessage( Message.ERROR.getPrefix() + ChatColor.DARK_AQUA + "Die Kanonen sind außer Betrieb, da das gegnerisches Schutzschild bereits zerstört wurde" );
+                }
             }
         }
     }

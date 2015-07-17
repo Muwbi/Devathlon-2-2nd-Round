@@ -15,8 +15,8 @@ import java.util.UUID;
  */
 public enum Team {
 
-    REBEL( "R", "Rebel", ChatColor.GREEN, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0) ),
-    IMPERIAL( "I", "Imperial", ChatColor.RED, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0) );
+    REBEL( "R", "Rebellen", ChatColor.GREEN, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0) ),
+    IMPERIAL( "I", "Imperium", ChatColor.RED, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0) );
 
     @Getter
     private String shortName;
