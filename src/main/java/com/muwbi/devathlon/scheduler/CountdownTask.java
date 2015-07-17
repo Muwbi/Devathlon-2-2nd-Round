@@ -28,7 +28,8 @@ public class CountdownTask implements Runnable {
             Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel startet in " + ChatColor.GOLD + counter + ChatColor.DARK_AQUA + " Sekunden" );
         } else {
             Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel startet!");
-            //TODO: Teleport players to their spaceship
+            SpaceFighter.getInstance().getGameSession().nextGameState();
+            SpaceFighter.getInstance().getGameSession().startGame();
             stop();
         }
     }
