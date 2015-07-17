@@ -36,12 +36,6 @@
             <version>1.16.4</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>3.6.5-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <build>

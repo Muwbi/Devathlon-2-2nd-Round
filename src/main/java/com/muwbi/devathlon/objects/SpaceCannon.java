@@ -1,11 +1,5 @@
 package com.muwbi.devathlon.objects;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.PacketAdapter;
-
-import com.muwbi.devathlon.SpaceFighter;
-
 import org.bukkit.Material;
 
 import org.bukkit.event.EventHandler;
@@ -21,18 +15,12 @@ import java.util.UUID;
 /**
  * Created by Muwbi
  */
-public class SpaceCannon extends PacketAdapter implements Listener {
+public class SpaceCannon implements Listener {
 
     private static final Material BLOCK_MATERIAL = Material.COBBLESTONE_STAIRS;
 
     private boolean isInUse;
     private UUID uuid;
-
-    public SpaceCannon() {
-        super( SpaceFighter.getInstance(), PacketType.Play.Server.ENTITY_METADATA );
-
-        ProtocolLibrary.getProtocolManager().addPacketListener( this );
-    }
 
     @EventHandler
     public void onPlayerInteract( PlayerInteractEvent event ) {
@@ -42,6 +30,8 @@ public class SpaceCannon extends PacketAdapter implements Listener {
                 uuid = event.getPlayer().getUniqueId();
 
                 event.getPlayer().sendMessage( "Du benutzt nun die SpaceCannon" );
+
+                event.getPlayer().getLocation().setPitch( 0 );
             }
         }
     }
@@ -49,7 +39,7 @@ public class SpaceCannon extends PacketAdapter implements Listener {
     @EventHandler
     public void onPlayerMove( PlayerMoveEvent event ) {
         if ( uuid == event.getPlayer().getUniqueId() ) {
-            event.setCancelled( true );
+            event.setTo( event.getFrom() );
         }
     }
 
