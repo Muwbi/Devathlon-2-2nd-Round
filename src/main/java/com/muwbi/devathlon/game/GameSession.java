@@ -37,8 +37,8 @@ public class GameSession {
         Score imperialScore = scoreObjective.getScore( ChatColor.RED + "Imperium" );
         Score rebelScore = scoreObjective.getScore( ChatColor.GREEN + "Rebellen" );
 
-        imperialScore.setScore( 20000 );
-        rebelScore.setScore( 20000 );
+        imperialScore.setScore( 10000 );
+        rebelScore.setScore( 10000 );
 
         scores.put( Team.IMPERIAL, imperialScore );
         scores.put( Team.REBEL, rebelScore );

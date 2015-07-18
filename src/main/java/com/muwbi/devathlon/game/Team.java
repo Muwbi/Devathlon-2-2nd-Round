@@ -1,5 +1,6 @@
 package com.muwbi.devathlon.game;
 
+import com.muwbi.devathlon.objects.SpaceCannon;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,32 +17,62 @@ import java.util.UUID;
  */
 public enum Team {
 
-    REBEL( "R", "Rebellen", ChatColor.GREEN, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt( 0, 70, 0 ) ),
-    IMPERIAL( "I", "Imperium", ChatColor.RED, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt( 0, 75, 0 ) );
+    REBEL( "R",
+            "Rebellen",
+            ChatColor.GREEN,
+            3000,
+            false,
+            true,
+            new Location( Bukkit.getWorld( "Spacefighter" ), 44, 58, -224 ),
+            new Location( Bukkit.getWorld( "Spacefighter" ), 24, 50, -223 ),
+            Bukkit.getWorld( "Spacefighter" ).getBlockAt( 35, 57, -219 ),
+            Arrays.asList( new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 17, 49, -91 ) ), new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 31, 49, -88 ) ) ) ),
+
+    IMPERIAL( "I",
+            "Imperium",
+            ChatColor.RED,
+            3000,
+            false,
+            true,
+            new Location( Bukkit.getWorld( "Spacefighter" ), 0, 57, -75 ),
+            new Location( Bukkit.getWorld( "Spacefighter" ), 19, 49, -77 ),
+            Bukkit.getWorld( "Spacefighter" ).getBlockAt( 8, 56, -81 ),
+            Arrays.asList( new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 26, 50, -209 ) ), new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 12, 50, -212 ) ) ) );
 
     @Getter
     private String shortName;
+
     @Getter
     private String fullName;
+
     @Getter
     private ChatColor chatColor;
+
     @Getter
     private int hitPoints;
+
     @Getter
     private boolean attackingBoardComputer;
+
     @Getter
     private boolean borderActive;
+
     @Getter
     private Location spawnLocation;
+
     @Getter
     private Location beamLocation;
+
     @Getter
     private Block boardComputer;
 
     @Getter
+    private List<SpaceCannon> spaceCannons;
+
+    @Getter
     private final List<UUID> members = new ArrayList<>();
 
-    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, boolean attackingBoardComputer, boolean borderActive, Location spawnLocation, Location beamLocation, Block boardComputer ) {
+    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, boolean attackingBoardComputer, boolean borderActive, Location spawnLocation, Location beamLocation, Block boardComputer, List<SpaceCannon> spaceCannons ) {
         this.shortName = shortName;
         this.fullName = fullName;
         this.chatColor = chatColor;
@@ -50,6 +82,7 @@ public enum Team {
         this.spawnLocation = spawnLocation;
         this.beamLocation = beamLocation;
         this.boardComputer = boardComputer;
+        this.spaceCannons = spaceCannons;
     }
 
     public static Team getTeam( UUID uuid ) {

@@ -24,7 +24,7 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin( PlayerJoinEvent event ) {
         event.setJoinMessage( Message.NORMAL.getPrefix() + "Gejoint " + ChatColor.GOLD + event.getPlayer().getName() + ChatColor.DARK_AQUA + " ist." );
-        event.getPlayer().teleport( new Location( Bukkit.getWorld( "Spacefighter" ), 0, 50, 0 ) );
+        event.getPlayer().teleport( new Location( Bukkit.getWorld( "Spacefighter" ), 0, 100, 1001 ) );
 
         if ( Bukkit.getOnlinePlayers().size() == 2 ) {
             SpaceFighter.getInstance().getGameSession().nextGameState();

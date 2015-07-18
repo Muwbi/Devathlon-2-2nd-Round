@@ -5,7 +5,7 @@ import com.muwbi.devathlon.commands.GameStateChangeCommand;
 import com.muwbi.devathlon.game.GameSession;
 import com.muwbi.devathlon.objects.Beamer;
 import com.muwbi.devathlon.objects.BoardComputer;
-import com.muwbi.devathlon.objects.SpaceCannon;
+import com.muwbi.devathlon.objects.Elevator;
 import lombok.Getter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -49,9 +49,9 @@ public class SpaceFighter extends JavaPlugin {
             e.printStackTrace();
         }
 
-        //pluginManager.registerEvents( new SpaceCannon(), this );
         pluginManager.registerEvents( new Beamer(), this );
         pluginManager.registerEvents( new BoardComputer(), this );
+        pluginManager.registerEvents( new Elevator(), this );
     }
 
     private void registerCommands() {

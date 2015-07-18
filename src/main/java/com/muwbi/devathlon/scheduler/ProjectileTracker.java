@@ -26,11 +26,10 @@ public class ProjectileTracker implements Runnable {
         lifetime++;
 
         if ( lifetime > 200 ) {
-            SpaceFighter.getInstance().getLogger().info( "Removing projectile " + projectile.getEntityId() + " because it didn't reach the border within 10 seconds" );
             stop();
         }
 
-        if ( projectile.getLocation().distanceSquared( team.getSpawnLocation() ) < 5000 /* TODO: Radius */ ) {
+        if ( projectile.getLocation().distanceSquared( team.getSpawnLocation() ) < 300 ) {
             Score score = SpaceFighter.getInstance().getGameSession().getScores().get( team );
 
             if ( score.getScore() <= 0 ) {
@@ -54,7 +53,7 @@ public class ProjectileTracker implements Runnable {
             throw new IllegalStateException( "Cannot stop a task which is not running" );
         }
 
-        projectile.remove();
+        Bukkit.getScheduler().runTaskLater( SpaceFighter.getInstance(), projectile::remove, 1 );
 
         task.cancel();
     }

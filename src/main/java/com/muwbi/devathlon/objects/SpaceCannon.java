@@ -4,6 +4,7 @@ import com.muwbi.devathlon.SpaceFighter;
 import com.muwbi.devathlon.game.Message;
 import com.muwbi.devathlon.game.Team;
 import com.muwbi.devathlon.scheduler.ProjectileTracker;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -29,13 +30,39 @@ public class SpaceCannon implements Listener {
 
     private final Location location;
 
+    private Block barrel;
+    private float yaw;
+
     private boolean isInUse;
     private UUID uuid;
 
     private long lastShot = 0;
 
     public SpaceCannon( Location blockLocation ) {
+        Bukkit.getPluginManager().registerEvents( this, SpaceFighter.getInstance() );
+
         location = blockLocation;
+
+        Stairs stairsData = (Stairs) blockLocation.getBlock().getState().getData();
+        switch ( stairsData.getFacing() ) {
+            case NORTH:
+                yaw = 180;
+                break;
+            case EAST:
+                yaw = -90;
+                break;
+            case SOUTH:
+                yaw = 0;
+                break;
+            case WEST:
+                yaw = 90;
+                break;
+            default:
+                yaw = 0;
+                break;
+        }
+
+        barrel = blockLocation.getBlock().getRelative( stairsData.getFacing(), 6 ).getLocation().subtract( 0, 3, 0 ).getBlock();
     }
 
     @EventHandler
@@ -44,29 +71,12 @@ public class SpaceCannon implements Listener {
 
         if ( event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
             if ( !isInUse ) {
-                Block clickedBlock = event.getClickedBlock();
-
                 isInUse = true;
                 uuid = player.getUniqueId();
 
-                Stairs stairsData = (Stairs) clickedBlock.getState().getData();
-                float yaw = 0;
-                switch ( stairsData.getFacing() ) {
-                    case NORTH:
-                        yaw = 180;
-                        break;
-                    case EAST:
-                        yaw = -90;
-                        break;
-                    case SOUTH:
-                        yaw = 0;
-                        break;
-                    case WEST:
-                        yaw = 90;
-                        break;
-                }
+                player.sendMessage( Message.NORMAL.getPrefix() + ChatColor.DARK_AQUA + "Du benutzt nun die SpaceCannon. Sneake, um die Kanone zu verlassen." );
 
-                Location playerLocation = clickedBlock.getLocation().clone().add( 0, 0.5, 0 );
+                Location playerLocation = location.clone().add( 0, 0.5, 0 );
 
                 playerLocation.setYaw( yaw );
                 playerLocation.setPitch( 0 );
@@ -79,7 +89,10 @@ public class SpaceCannon implements Listener {
                     if ( System.currentTimeMillis() - lastShot > 250 ) {
                         lastShot = System.currentTimeMillis();
 
-                        Snowball snowball = player.launchProjectile( Snowball.class, player.getLocation().getDirection().normalize().multiply( 5 ) );
+                        Snowball snowball = player.getWorld().spawn( barrel.getLocation().clone().add( 0, 0.5, 0 ), Snowball.class );
+                        snowball.setShooter( player );
+                        snowball.setVelocity( player.getLocation().getDirection().clone().normalize().multiply( 3 ) );
+
                         new ProjectileTracker( snowball, Team.getTeam( player.getUniqueId() ).getOtherTeam() ).start();
                     }
                 } else {

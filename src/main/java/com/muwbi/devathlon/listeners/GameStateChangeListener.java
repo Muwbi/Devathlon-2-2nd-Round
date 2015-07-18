@@ -16,6 +16,7 @@ public class GameStateChangeListener implements Listener {
     public void onGameStateChange( GameStateChangeEvent event ) {
         if ( event.getPreviousGameState() == GameState.LOBBY && event.getNewGameState() == GameState.WARMUP ) {
             Bukkit.getOnlinePlayers().forEach( player -> player.setScoreboard( SpaceFighter.getInstance().getGameSession().getScoreboard() ) );
+        } else if ( event.getPreviousGameState() == GameState.WARMUP && event.getNewGameState() == GameState.INGAME ) {
             SpaceFighter.getInstance().getGameSession().startGame();
         }
     }
