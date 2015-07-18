@@ -49,7 +49,7 @@ public class SpaceFighter extends JavaPlugin {
             e.printStackTrace();
         }
 
-        pluginManager.registerEvents( new SpaceCannon(), this );
+        //pluginManager.registerEvents( new SpaceCannon(), this );
         pluginManager.registerEvents( new Beamer(), this );
         pluginManager.registerEvents( new BoardComputer(), this );
     }
