@@ -35,7 +35,7 @@ public class GameSession {
         currentGameState = GameState.LOBBY;
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective scoreObjective = scoreboard.registerNewObjective( "score", "dummy" );
-        scoreObjective.setDisplayName( ChatColor.GREEN + "Kraftpunkte" );
+        scoreObjective.setDisplayName( ChatColor.DARK_RED + "Kraftpunkte" );
         scoreObjective.setDisplaySlot( DisplaySlot.SIDEBAR );
 
         Score imperialScore = scoreObjective.getScore( ChatColor.RED + "Imperium" );
@@ -73,11 +73,24 @@ public class GameSession {
     }
 
     public void startGame() {
+
         for(Player player : Bukkit.getOnlinePlayers() ) {
             Team team = Team.getLessPopulatedTeam();
             team.addMember( player.getUniqueId() );
             player.teleport(team.getSpawnLocation());
         }
+
+    }
+
+    public void endGame() {
+
+        for( Player player : Bukkit.getOnlinePlayers() ) {
+            player.getInventory().setArmorContents(null);
+            player.getInventory().clear();
+            player.kickPlayer( Message.ERROR.getPrefix() + "Der Server fährt nun herunter!" );
+        }
+
+        Bukkit.shutdown();
     }
 
     public void sendTeamMessage( Team team, String message ) {

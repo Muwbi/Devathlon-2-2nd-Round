@@ -14,7 +14,7 @@ public class GameStateChangeCommand implements CommandExecutor {
     public boolean onCommand( CommandSender commandSender, Command command, String s, String[] arguments ) {
 
         if( arguments.length == 1 ) {
-            SpaceFighter.getInstance().getGameSession().changeGameState(GameState.valueOf(arguments[0]));
+            SpaceFighter.getInstance().getGameSession().changeGameState( GameState.valueOf( arguments[ 0 ].toUpperCase() ) );
         } else {
             return true;
         }

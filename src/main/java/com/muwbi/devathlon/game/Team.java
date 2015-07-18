@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -15,8 +16,8 @@ import java.util.UUID;
  */
 public enum Team {
 
-    REBEL( "R", "Rebellen", ChatColor.GREEN, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0) ),
-    IMPERIAL( "I", "Imperium", ChatColor.RED, 3000, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0) );
+    REBEL( "R", "Rebellen", ChatColor.GREEN, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt(0, 69, 0) ),
+    IMPERIAL( "I", "Imperium", ChatColor.RED, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt(0, 75, 0) );
 
     @Getter
     private String shortName;
@@ -27,20 +28,29 @@ public enum Team {
     @Getter
     private int hitPoints;
     @Getter
+    private boolean attackingBoardComputer;
+    @Getter
+    private boolean borderActive;
+    @Getter
     private Location spawnLocation;
     @Getter
     private Location beamLocation;
+    @Getter
+    private Block boardComputer;
 
     @Getter
     private final List<UUID> members = new ArrayList<>();
 
-    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, Location spawnLocation, Location beamLocation ) {
+    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, boolean attackingBoardComputer, boolean borderActive, Location spawnLocation, Location beamLocation, Block boardComputer ) {
         this.shortName = shortName;
         this.fullName = fullName;
         this.chatColor = chatColor;
         this.hitPoints = hitPoints;
+        this.attackingBoardComputer = attackingBoardComputer;
+        this.borderActive = borderActive;
         this.spawnLocation = spawnLocation;
         this.beamLocation = beamLocation;
+        this.boardComputer = boardComputer;
     }
 
     public static Team getTeam( UUID uuid ) {

@@ -4,6 +4,7 @@ import com.muwbi.devathlon.SpaceFighter;
 import com.muwbi.devathlon.game.Message;
 import com.muwbi.devathlon.game.Team;
 import com.muwbi.devathlon.scheduler.BeamTask;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,9 +24,14 @@ public class Beamer implements Listener {
         Player player = event.getPlayer();
 
         if ( event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
-            if ( player.getLocation().distanceSquared( Team.getTeam( player.getUniqueId() ).getBeamLocation() ) < 9 ) {
-                new BeamTask( 5, player, Team.getTeam( player.getUniqueId() ).getBeamLocation() ).start();
-                SpaceFighter.getInstance().getGameSession().sendTeamMessage( Team.getTeam( player.getUniqueId() ).getOtherTeam(), Message.ERROR.getPrefix() + "Der Feind startet einen Beamvorgang!" );
+            if( Team.getTeam( player.getUniqueId() ).getOtherTeam().isBorderActive() ) {
+                if ( player.getLocation().distanceSquared( Team.getTeam( player.getUniqueId() ).getBeamLocation() ) < 9 ) {
+                    event.setCancelled(true);
+                    new BeamTask(5, player, Team.getTeam(player.getUniqueId()).getBeamLocation()).start();
+                    SpaceFighter.getInstance().getGameSession().sendTeamMessage( Team.getTeam(player.getUniqueId()).getOtherTeam(), ChatColor.BOLD + Message.ERROR.getPrefix() + "Der Feind startet einen Beamvorgang!" );
+                }
+            } else {
+                player.sendMessage( Message.ERROR.getPrefix() + "Das Schild des feindlichen Schiffes ist noch aktiv! Zerstöre es, bevor du dich beamst!" );
             }
         }
 
