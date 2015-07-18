@@ -26,7 +26,7 @@ public enum Team {
             new Location( Bukkit.getWorld( "Spacefighter" ), 44, 58, -224 ),
             new Location( Bukkit.getWorld( "Spacefighter" ), 24, 50, -223 ),
             Bukkit.getWorld( "Spacefighter" ).getBlockAt( 35, 57, -219 ),
-            Arrays.asList( new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 17, 49, -91 ) ), new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 31, 49, -88 ) ) ) ),
+            new Location( Bukkit.getWorld( "Spacefighter" ), 17, 49, -91 ) ),
 
     IMPERIAL( "I",
             "Imperium",
@@ -37,7 +37,7 @@ public enum Team {
             new Location( Bukkit.getWorld( "Spacefighter" ), 0, 57, -75 ),
             new Location( Bukkit.getWorld( "Spacefighter" ), 19, 49, -77 ),
             Bukkit.getWorld( "Spacefighter" ).getBlockAt( 8, 56, -81 ),
-            Arrays.asList( new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 26, 50, -209 ) ), new SpaceCannon( new Location( Bukkit.getWorld( "Spacefighter" ), 12, 50, -212 ) ) ) );
+            new Location( Bukkit.getWorld( "Spacefighter" ), 26, 50, -209 ) );
 
     @Getter
     private String shortName;
@@ -67,12 +67,12 @@ public enum Team {
     private Block boardComputer;
 
     @Getter
-    private List<SpaceCannon> spaceCannons;
+    private Location spaceCannonLocation;
 
     @Getter
     private final List<UUID> members = new ArrayList<>();
 
-    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, boolean attackingBoardComputer, boolean borderActive, Location spawnLocation, Location beamLocation, Block boardComputer, List<SpaceCannon> spaceCannons ) {
+    private Team( String shortName, String fullName, ChatColor chatColor, int hitPoints, boolean attackingBoardComputer, boolean borderActive, Location spawnLocation, Location beamLocation, Block boardComputer, Location spaceCannonLocation ) {
         this.shortName = shortName;
         this.fullName = fullName;
         this.chatColor = chatColor;
@@ -82,7 +82,7 @@ public enum Team {
         this.spawnLocation = spawnLocation;
         this.beamLocation = beamLocation;
         this.boardComputer = boardComputer;
-        this.spaceCannons = spaceCannons;
+        this.spaceCannonLocation = spaceCannonLocation;
     }
 
     public static Team getTeam( UUID uuid ) {

@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -37,8 +36,6 @@ public class LaserPistolTracker implements Runnable {
         }
 
         if ( getNearbyEnemy() != null ) {
-            Bukkit.broadcastMessage( "Damaging " + getNearbyEnemy().getName() );
-
             getNearbyEnemy().damage( 6, player );
             stop();
         }

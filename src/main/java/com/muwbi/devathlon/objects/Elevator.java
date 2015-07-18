@@ -1,10 +1,7 @@
 package com.muwbi.devathlon.objects;
 
 import com.muwbi.devathlon.game.Message;
-import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +16,7 @@ public class Elevator implements Listener {
     private static final Material BLOCK_MATERIAL = Material.DIAMOND_BLOCK;
 
     @EventHandler
-    public void onJump( PlayerToggleSneakEvent event ) {
+    public void onPlayerToggleSneak( PlayerToggleSneakEvent event ) {
         if ( !event.isSneaking() || event.getPlayer().getLocation().clone().subtract( 0, 1, 0 ).getBlock().getType() != BLOCK_MATERIAL ) {
             return;
         }
@@ -57,6 +54,35 @@ public class Elevator implements Listener {
         } else {
             player.sendMessage( Message.ERROR.getPrefix() + ChatColor.RED + "Aufzug defekt!" );
         }
+    }
+
+    private Block getNextElevatorBlock( Location startLocation ) {
+        World world = startLocation.getWorld();
+
+        int xCoordinate = startLocation.getBlockX();
+        int yCoordinate = startLocation.getBlockY();
+        int zCoordinate = startLocation.getBlockZ();
+
+        Block nextElevatorBlock = null;
+        for ( int y = yCoordinate; y < 256; y++ ) {
+            Block block = world.getBlockAt( xCoordinate, y, zCoordinate );
+
+            if ( block.getType() == BLOCK_MATERIAL ) {
+                nextElevatorBlock = block;
+            }
+        }
+
+        if ( nextElevatorBlock == null ) {
+            for ( int y = yCoordinate; y > 0; y-- ) {
+                Block block = world.getBlockAt( xCoordinate, y, zCoordinate );
+
+                if ( block.getType() == BLOCK_MATERIAL ) {
+                    nextElevatorBlock = block;
+                }
+            }
+        }
+
+        return nextElevatorBlock;
     }
 
 }

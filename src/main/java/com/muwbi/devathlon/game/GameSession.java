@@ -1,10 +1,12 @@
 package com.muwbi.devathlon.game;
 
 import com.muwbi.devathlon.events.GameStateChangeEvent;
+import com.muwbi.devathlon.objects.LaserPistol;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -76,6 +78,10 @@ public class GameSession {
             player.sendMessage( Message.NORMAL.getPrefix() + ChatColor.DARK_AQUA + "Du bist " + ( team == Team.IMPERIAL ? "dem " : "den " ) + team.getChatColor() + team.getFullName() + ChatColor.DARK_AQUA + " beigetreten" );
 
             player.teleport( team.getSpawnLocation() );
+
+            player.getInventory().clear();
+
+            player.getInventory().setItem( 0, LaserPistol.getByUUID( player.getUniqueId() ).getItemStack() );
         }
     }
 

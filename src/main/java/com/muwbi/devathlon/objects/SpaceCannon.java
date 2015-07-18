@@ -26,7 +26,7 @@ import java.util.UUID;
  */
 public class SpaceCannon implements Listener {
 
-    private static final Material BLOCK_MATERIAL = Material.COBBLESTONE_STAIRS;
+    private static final Material BLOCK_MATERIAL = Material.QUARTZ_STAIRS;
 
     private final Location location;
 
@@ -69,21 +69,23 @@ public class SpaceCannon implements Listener {
     public void onPlayerInteract( PlayerInteractEvent event ) {
         Player player = event.getPlayer();
 
-        if ( event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
-            if ( !isInUse ) {
-                isInUse = true;
-                uuid = player.getUniqueId();
+        if ( ( event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK ) && event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
+            if ( Team.getTeam( player.getUniqueId() ).getSpaceCannonLocation().equals( event.getClickedBlock().getLocation() ) ) {
+                if ( !isInUse ) {
+                    isInUse = true;
+                    uuid = player.getUniqueId();
 
-                player.sendMessage( Message.NORMAL.getPrefix() + ChatColor.DARK_AQUA + "Du benutzt nun die SpaceCannon. Sneake, um die Kanone zu verlassen." );
+                    player.sendMessage( Message.NORMAL.getPrefix() + ChatColor.DARK_AQUA + "Du benutzt nun die SpaceCannon. Sneake, um die Kanone zu verlassen." );
 
-                Location playerLocation = location.clone().add( 0, 0.5, 0 );
+                    Location playerLocation = location.add( 0, 0.5, 0 );
 
-                playerLocation.setYaw( yaw );
-                playerLocation.setPitch( 0 );
+                    playerLocation.setYaw( yaw );
+                    playerLocation.setPitch( 0 );
 
-                player.teleport( playerLocation );
+                    player.teleport( playerLocation );
+                }
             }
-        } else if ( event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR ) {
+        } else if ( event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK ) {
             if ( isInUse && uuid == player.getUniqueId() ) {
                 if ( SpaceFighter.getInstance().getGameSession().getScores().get( Team.getTeam( uuid ).getOtherTeam() ).getScore() > 0 ) {
                     if ( System.currentTimeMillis() - lastShot > 250 ) {
