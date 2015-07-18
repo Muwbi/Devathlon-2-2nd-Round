@@ -13,19 +13,19 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class EndGameTask implements Runnable {
 
-    private final AtomicInteger countdown;
+    private int countdown;
     private BukkitTask bukkitTask;
 
     public EndGameTask( int seconds ) {
-        countdown = new AtomicInteger( seconds + 1 );
+        countdown = seconds + 1;
     }
 
     @Override
     public void run() {
-        int counter = countdown.decrementAndGet();
+        countdown--;
 
-        if( counter > 0 ) {
-            Bukkit.broadcastMessage(Message.NORMAL.getPrefix() + "Das Spiel stoppt in " + ChatColor.GOLD + ChatColor.DARK_AQUA + "!");
+        if ( countdown > 0 ) {
+            Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel stoppt in " + ChatColor.GOLD + countdown + " Sekunden" );
         } else {
             SpaceFighter.getInstance().getGameSession().endGame();
             stop();
@@ -33,7 +33,7 @@ public class EndGameTask implements Runnable {
     }
 
     public void start() {
-        bukkitTask = Bukkit.getScheduler().runTaskTimer(SpaceFighter.getInstance(), this, 0, 20);
+        bukkitTask = Bukkit.getScheduler().runTaskTimer( SpaceFighter.getInstance(), this, 0, 20 );
     }
 
     public void stop() {

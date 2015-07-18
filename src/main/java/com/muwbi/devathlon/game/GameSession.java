@@ -4,8 +4,6 @@ import com.muwbi.devathlon.events.GameStateChangeEvent;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Effect;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -13,9 +11,7 @@ import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Created by Muwbi
@@ -73,19 +69,20 @@ public class GameSession {
     }
 
     public void startGame() {
-
-        for(Player player : Bukkit.getOnlinePlayers() ) {
+        for ( Player player : Bukkit.getOnlinePlayers() ) {
             Team team = Team.getLessPopulatedTeam();
             team.addMember( player.getUniqueId() );
-            player.teleport(team.getSpawnLocation());
-        }
 
+            player.sendMessage( Message.NORMAL.getPrefix() + ChatColor.DARK_AQUA + "Du bist " + ( team == Team.IMPERIAL ? "dem " : "den " ) + team.getChatColor() + team.getFullName() + ChatColor.DARK_AQUA + " beigetreten" );
+
+            player.teleport( team.getSpawnLocation() );
+        }
     }
 
     public void endGame() {
 
-        for( Player player : Bukkit.getOnlinePlayers() ) {
-            player.getInventory().setArmorContents(null);
+        for ( Player player : Bukkit.getOnlinePlayers() ) {
+            player.getInventory().setArmorContents( null );
             player.getInventory().clear();
             player.kickPlayer( Message.ERROR.getPrefix() + "Der Server fährt nun herunter!" );
         }

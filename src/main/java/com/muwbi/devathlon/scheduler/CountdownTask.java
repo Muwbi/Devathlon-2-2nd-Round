@@ -1,7 +1,6 @@
 package com.muwbi.devathlon.scheduler;
 
 import com.muwbi.devathlon.SpaceFighter;
-import com.muwbi.devathlon.events.GameStateChangeEvent;
 import com.muwbi.devathlon.game.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,22 +13,22 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class CountdownTask implements Runnable {
 
-    private final AtomicInteger countdown;
+    private int countdown;
     private BukkitTask bukkitTask;
 
     public CountdownTask( int seconds ) {
-        countdown = new AtomicInteger( seconds + 1 );
+        countdown = seconds + 1;
     }
+
     @Override
     public void run() {
-        int counter = countdown.decrementAndGet();
+        countdown--;
 
-        if( counter > 0 ) {
-            Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel startet in " + ChatColor.GOLD + counter + ChatColor.DARK_AQUA + " Sekunden" );
+        if ( countdown > 0 ) {
+            Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel startet in " + ChatColor.GOLD + countdown + " Sekunden" );
         } else {
-            Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel startet!");
+            Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Spiel startet!" );
             SpaceFighter.getInstance().getGameSession().nextGameState();
-            SpaceFighter.getInstance().getGameSession().startGame();
             stop();
         }
     }

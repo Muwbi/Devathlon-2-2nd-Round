@@ -20,15 +20,15 @@ public class Beamer implements Listener {
     private static final Material BLOCK_MATERIAL = Material.BEACON;
 
     @EventHandler
-    public void onInteract( PlayerInteractEvent event ) {
+    public void onPlayerInteract( PlayerInteractEvent event ) {
         Player player = event.getPlayer();
 
         if ( event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
-            if( Team.getTeam( player.getUniqueId() ).getOtherTeam().isBorderActive() ) {
+            if ( Team.getTeam( player.getUniqueId() ).getOtherTeam().isBorderActive() ) {
                 if ( player.getLocation().distanceSquared( Team.getTeam( player.getUniqueId() ).getBeamLocation() ) < 9 ) {
-                    event.setCancelled(true);
-                    new BeamTask(5, player, Team.getTeam(player.getUniqueId()).getBeamLocation()).start();
-                    SpaceFighter.getInstance().getGameSession().sendTeamMessage( Team.getTeam(player.getUniqueId()).getOtherTeam(), ChatColor.BOLD + Message.ERROR.getPrefix() + "Der Feind startet einen Beamvorgang!" );
+                    event.setCancelled( true );
+                    new BeamTask( 5, player, Team.getTeam( player.getUniqueId() ).getBeamLocation() ).start();
+                    SpaceFighter.getInstance().getGameSession().sendTeamMessage( Team.getTeam( player.getUniqueId() ).getOtherTeam(), ChatColor.BOLD + Message.ERROR.getPrefix() + "Der Feind startet einen Beamvorgang!" );
                 }
             } else {
                 player.sendMessage( Message.ERROR.getPrefix() + "Das Schild des feindlichen Schiffes ist noch aktiv! Zerstöre es, bevor du dich beamst!" );

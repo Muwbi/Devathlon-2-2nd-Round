@@ -18,6 +18,4 @@ Benutzte Libaries:
 TODO:
 -----
 - Rollen(zuweisung)
-- Übernahme des feindlichen Raumschiffs
 - Laserpistolen
-- Cooldown bei Kanonen

@@ -4,14 +4,10 @@ import com.muwbi.devathlon.SpaceFighter;
 import com.muwbi.devathlon.game.Message;
 import com.muwbi.devathlon.game.Team;
 import com.muwbi.devathlon.scheduler.ProjectileTracker;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
@@ -22,7 +18,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.material.Stairs;
 
-
 import java.util.UUID;
 
 /**
@@ -32,8 +27,16 @@ public class SpaceCannon implements Listener {
 
     private static final Material BLOCK_MATERIAL = Material.COBBLESTONE_STAIRS;
 
+    private final Location location;
+
     private boolean isInUse;
     private UUID uuid;
+
+    private long lastShot = 0;
+
+    public SpaceCannon( Location blockLocation ) {
+        location = blockLocation;
+    }
 
     @EventHandler
     public void onPlayerInteract( PlayerInteractEvent event ) {
@@ -45,8 +48,6 @@ public class SpaceCannon implements Listener {
 
                 isInUse = true;
                 uuid = player.getUniqueId();
-
-                player.sendMessage( "Du benutzt nun die SpaceCannon" );
 
                 Stairs stairsData = (Stairs) clickedBlock.getState().getData();
                 float yaw = 0;
@@ -75,8 +76,12 @@ public class SpaceCannon implements Listener {
         } else if ( event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_AIR ) {
             if ( isInUse && uuid == player.getUniqueId() ) {
                 if ( SpaceFighter.getInstance().getGameSession().getScores().get( Team.getTeam( uuid ).getOtherTeam() ).getScore() > 0 ) {
-                    Snowball snowball = player.launchProjectile( Snowball.class, player.getLocation().getDirection().normalize().multiply( 5 ) );
-                    new ProjectileTracker( snowball, Team.getTeam( player.getUniqueId() ).getOtherTeam() ).start();
+                    if ( System.currentTimeMillis() - lastShot > 250 ) {
+                        lastShot = System.currentTimeMillis();
+
+                        Snowball snowball = player.launchProjectile( Snowball.class, player.getLocation().getDirection().normalize().multiply( 5 ) );
+                        new ProjectileTracker( snowball, Team.getTeam( player.getUniqueId() ).getOtherTeam() ).start();
+                    }
                 } else {
                     player.sendMessage( Message.ERROR.getPrefix() + ChatColor.DARK_AQUA + "Die Kanonen sind außer Betrieb, da das gegnerisches Schutzschild bereits zerstört wurde" );
                 }

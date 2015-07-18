@@ -51,7 +51,7 @@ public class SpaceFighter extends JavaPlugin {
 
         pluginManager.registerEvents( new SpaceCannon(), this );
         pluginManager.registerEvents( new Beamer(), this );
-        pluginManager.registerEvents( new BoardComputer(), this);
+        pluginManager.registerEvents( new BoardComputer(), this );
     }
 
     private void registerCommands() {

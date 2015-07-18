@@ -12,7 +12,7 @@ public class PlayerRespawnListener implements Listener {
 
     @EventHandler
     public void onRespawn( PlayerRespawnEvent event ) {
-        event.setRespawnLocation(Team.getTeam( event.getPlayer().getUniqueId() ).getSpawnLocation() );
+        event.setRespawnLocation( Team.getTeam( event.getPlayer().getUniqueId() ).getSpawnLocation() );
     }
 
 }

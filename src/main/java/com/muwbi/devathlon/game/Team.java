@@ -5,7 +5,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +15,8 @@ import java.util.UUID;
  */
 public enum Team {
 
-    REBEL( "R", "Rebellen", ChatColor.GREEN, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt(0, 69, 0) ),
-    IMPERIAL( "I", "Imperium", ChatColor.RED, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt(0, 75, 0) );
+    REBEL( "R", "Rebellen", ChatColor.GREEN, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 60, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt( 0, 70, 0 ) ),
+    IMPERIAL( "I", "Imperium", ChatColor.RED, 3000, false, true, new Location( Bukkit.getWorld( "Spacefighter" ), 0, 49, 0 ), new Location( Bukkit.getWorld( "Spacefighter" ), 0, 80, 0 ), Bukkit.getWorld( "Spacefighter" ).getBlockAt( 0, 75, 0 ) );
 
     @Getter
     private String shortName;

@@ -1,10 +1,12 @@
 package com.muwbi.devathlon.objects;
 
+import com.muwbi.devathlon.game.Message;
 import com.muwbi.devathlon.game.Team;
-import com.muwbi.devathlon.scheduler.BoardTask;
-import org.bukkit.Bukkit;
+import com.muwbi.devathlon.scheduler.BoardComputerTask;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -15,16 +17,24 @@ import org.bukkit.event.player.PlayerInteractEvent;
  */
 public class BoardComputer implements Listener {
 
-    private static final Material boardComputer = Material.ENDER_CHEST;
+    private static final Material BLOCK_MATERIAL = Material.ENDER_CHEST;
 
     @EventHandler
-    public void onInteract( PlayerInteractEvent event ) {
-        Team team = Team.getTeam( event.getPlayer().getUniqueId() );
+    public void onPlayerInteract( PlayerInteractEvent event ) {
+        if ( event.getAction() == Action.RIGHT_CLICK_BLOCK ) {
+            if ( event.getClickedBlock().getType() == BLOCK_MATERIAL ) {
+                event.setCancelled( true );
 
-        if( event.getAction() == Action.RIGHT_CLICK_BLOCK ) {
-            if( event.getClickedBlock().getType() == boardComputer ) {
-                if( event.getClickedBlock().getLocation() == Team.getTeam( event.getPlayer().getUniqueId() ).getOtherTeam().getBoardComputer().getLocation() ) {
-                    new BoardTask( 15, team, team.getOtherTeam().getBoardComputer().getLocation(), event.getPlayer() ).start();
+                Player player = event.getPlayer();
+                Team team = Team.getTeam( player.getUniqueId() );
+                Block clickedBlock = event.getClickedBlock();
+
+                if ( clickedBlock.getLocation().equals( team.getOtherTeam().getBoardComputer().getLocation() ) ) {
+                    if ( player.getLocation().distanceSquared( clickedBlock.getLocation() ) > 9 ) {
+                        player.sendMessage( Message.ERROR.getPrefix() + ChatColor.RED + "Du musst dich näher als 3 Blöcke am Boardcomputer befinden" );
+                    } else {
+                        new BoardComputerTask( 15, team, team.getOtherTeam().getBoardComputer().getLocation(), event.getPlayer() ).start();
+                    }
                 }
             }
         }

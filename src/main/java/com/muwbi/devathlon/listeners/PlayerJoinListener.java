@@ -24,9 +24,9 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin( PlayerJoinEvent event ) {
         event.setJoinMessage( Message.NORMAL.getPrefix() + "Gejoint " + ChatColor.GOLD + event.getPlayer().getName() + ChatColor.DARK_AQUA + " ist." );
-        event.getPlayer().teleport( new Location( Bukkit.getWorld("Spacefighter"), 0, 50, 0 ) );
+        event.getPlayer().teleport( new Location( Bukkit.getWorld( "Spacefighter" ), 0, 50, 0 ) );
 
-        if( Bukkit.getOnlinePlayers().size() == 2 ) {
+        if ( Bukkit.getOnlinePlayers().size() == 2 ) {
             SpaceFighter.getInstance().getGameSession().nextGameState();
             new CountdownTask( 10 ).start();
         }
@@ -38,21 +38,21 @@ public class PlayerJoinListener implements Listener {
 
         event.setQuitMessage( Message.NORMAL.getPrefix() + ChatColor.GOLD + event.getPlayer().getName() + ChatColor.DARK_AQUA + " ist im ewigen Kosmos verloren!" );
 
-        if( Bukkit.getOnlinePlayers().size() == 1 ) {
+        if ( Bukkit.getOnlinePlayers().size() == 1 ) {
             Team winnerTeam = Team.getLessPopulatedTeam().getOtherTeam();
-            Bukkit.broadcastMessage (Message.NORMAL.getPrefix() + "Das Team " + winnerTeam.getChatColor() + winnerTeam.getFullName() + ChatColor.DARK_AQUA + " hat das Spiel gewonnen!" );
+            Bukkit.broadcastMessage( Message.NORMAL.getPrefix() + "Das Team " + winnerTeam.getChatColor() + winnerTeam.getFullName() + ChatColor.DARK_AQUA + " hat das Spiel gewonnen!" );
         }
-        if (Team.hasTeam( uuid ) ) {
+        if ( Team.hasTeam( uuid ) ) {
             Team.getTeam( uuid ).removeMember( uuid );
         }
 
     }
 
-     @EventHandler
+    @EventHandler
     public void onLogin( PlayerLoginEvent event ) {
-         if( SpaceFighter.getInstance().getGameSession().getCurrentGameState() == GameState.INGAME ) {
-             event.disallow( null, Message.NORMAL.getPrefix() + "Das Spiel läuft schon! Versuche es zu einem späteren Zeitpunkt erneut!" );
-         }
+        if ( SpaceFighter.getInstance().getGameSession().getCurrentGameState() == GameState.INGAME ) {
+            event.disallow( null, Message.NORMAL.getPrefix() + "Das Spiel läuft schon! Versuche es zu einem späteren Zeitpunkt erneut!" );
+        }
     }
 
 }

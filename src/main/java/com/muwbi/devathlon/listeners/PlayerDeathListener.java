@@ -15,10 +15,10 @@ public class PlayerDeathListener implements Listener {
     @EventHandler
     public void onDeath( PlayerDeathEvent event ) {
         Player player = event.getEntity();
-        if( player.getKiller() instanceof Player ) {
+        if ( player.getKiller() instanceof Player ) {
             event.setDeathMessage( Message.NORMAL.getPrefix() + ChatColor.GOLD + event.getEntity().getName() + ChatColor.DARK_AQUA + " gekillt worden sein von " + ChatColor.GOLD + player.getKiller().getName() );
         } else {
-            event.setDeathMessage( Message.NORMAL.getPrefix() + ChatColor.GOLD + player.getName() + ChatColor.DARK_AQUA + " gestorben ist!");
+            event.setDeathMessage( Message.NORMAL.getPrefix() + ChatColor.GOLD + player.getName() + ChatColor.DARK_AQUA + " gestorben ist!" );
         }
     }
 }

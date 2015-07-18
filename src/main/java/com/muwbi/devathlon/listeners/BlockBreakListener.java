@@ -13,7 +13,7 @@ public class BlockBreakListener implements Listener {
 
     @EventHandler
     public void onBreak( BlockBreakEvent event ) {
-        if( SpaceFighter.getInstance().getGameSession().getCurrentGameState() == GameState.INGAME || !event.getPlayer().isOp() ) {
+        if ( SpaceFighter.getInstance().getGameSession().getCurrentGameState() == GameState.INGAME || !event.getPlayer().isOp() ) {
             event.setCancelled( true );
         }
     }
